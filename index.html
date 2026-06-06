@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Tayangku ❤️</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#ffb6d9,#ff69b4,#ff1493);
+overflow:hidden;
+height:100vh;
+}
+
+.page{
+position:absolute;
+width:100%;
+height:100%;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+transition:1s;
+}
+
+.card{
+background:white;
+width:90%;
+max-width:700px;
+padding:30px;
+border-radius:25px;
+text-align:center;
+box-shadow:0 10px 30px rgba(0,0,0,.3);
+}
+
+h1{
+color:#ff1493;
+margin-bottom:15px;
+}
+
+p{
+line-height:1.8;
+color:#444;
+min-height:20px;
+}
+
+.btn{
+margin-top:20px;
+padding:12px 25px;
+border:none;
+border-radius:30px;
+background:#ff1493;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+.hidden{
+opacity:0;
+pointer-events:none;
+}
+
+.envelope{
+font-size:120px;
+animation:float 2s infinite;
+}
+
+@keyframes float{
+50%{ transform:translateY(-10px); }
+}
+
+.slider{
+width:100%;
+height:350px;
+overflow:hidden;
+border-radius:20px;
+margin-top:20px;
+}
+
+.slider img{
+width:100%;
+height:100%;
+object-fit:cover;
+display:none;
+}
+
+.slider img.active{
+display:block;
+}
+
+.heart{
+position:absolute;
+top:-50px;
+animation:fall linear forwards;
+}
+
+@keyframes fall{
+to{ transform:translateY(110vh); }
+}
+
+.music{
+position:fixed;
+top:15px;
+right:15px;
+z-index:999;
+}
+
+.final-text{
+font-size:26px;
+color:#ff1493;
+font-weight:bold;
+margin-top:15px;
+min-height:30px;
+}
+
+</style>
+</head>
+
+<body>
+
+<audio id="music" loop autoplay>
+<source src="its you.mp3.mpeg" type="audio/mpeg">
+</audio>
+
+<button class="btn music" onclick="toggleMusic()">🎵 Musik</button>
+
+<!-- PAGE 1 -->
+<div class="page" id="page1">
+<div class="card">
+<div class="envelope">💌</div>
+<h1>Untuk Tayangku ❤️</h1>
+<button class="btn" onclick="openLetter()">Buka</button>
+</div>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page hidden" id="page2">
+<div class="card">
+<h1>🎂 Dear Dwita Permatasari ❤️</h1>
+
+<p id="text1"></p>
+<p id="text2"></p>
+
+<button class="btn" onclick="showGallery()">Lanjut 📸</button>
+</div>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page hidden" id="page3">
+<div class="card">
+<h1>📸❤️</h1>
+
+<div class="slider">
+<img src="foto1.jpeg" class="slide active">
+<img src="foto2.jpeg" class="slide">
+<img src="foto1.jpeg" class="slide">
+<img src="foto2.jpeg" class="slide">
+<img src="foto1.jpeg" class="slide">
+</div>
+
+<button class="btn" onclick="showFinal()">Lanjut ❤️</button>
+</div>
+</div>
+
+<!-- PAGE 4 -->
+<div class="page hidden" id="page4">
+<div class="card">
+<h1>❤️  ❤️</h1>
+
+<p id="finalText"></p>
+
+<div class="final-text" id="finalTitle"></div>
+
+</div>
+</div>
+
+<script>
+
+const music = document.getElementById("music");
+
+/* autoplay + fallback */
+window.addEventListener("load", () => {
+music.play().catch(()=>{});
+});
+
+document.body.addEventListener("click", () => {
+if(music.paused) music.play();
+}, { once:true });
+
+function toggleMusic(){
+music.paused ? music.play() : music.pause();
+}
+
+/* PAGE CONTROL */
+function openLetter(){
+document.getElementById("page1").classList.add("hidden");
+document.getElementById("page2").classList.remove("hidden");
+confetti();
+
+/* typing page 2 */
+typeText("text1","Selamat ulang tahun tayangku...");
+typeText("text2","Hari ini hari spesial kamu, walaupun jarak kita berjauhan, aku mau kamu tau kalo aku peduli dan selalu mendoakan yang terbaik buat kamu. Semoga kamu selalu dikelilingi orang-orang yang baik, rezeki kamu lancar, dan kamu selalu diberi kesehatan serta kekuatan dalam menjalani semua aktivitas kamu. Aku harap kamu selalu semangat dan tetap tersenyum dalam menjalani hari.");
+}
+
+function showGallery(){
+document.getElementById("page2").classList.add("hidden");
+document.getElementById("page3").classList.remove("hidden");
+}
+
+function showFinal(){
+document.getElementById("page3").classList.add("hidden");
+document.getElementById("page4").classList.remove("hidden");
+confetti();
+
+/* typing page 4 */
+typeText("finalText","Walaupun kita jauh dan belum bisa ketemu langsung, aku tetap berharap yang terbaik buat kamu. Semoga kamu selalu sehat, bahagia, dan semua urusan kamu dimudahkan. Aku harap kamu tetap semangat menjalani hari-hari kamu di sana. Pokoknya wish u all the best.");
+typeText("finalTitle","Selamat Ulang Tahun Tayaaannggg 🎂❤️");
+}
+
+/* ✨ TYPING EFFECT */
+function typeText(id, text){
+let el = document.getElementById(id);
+el.innerHTML = "";
+let i = 0;
+
+let typing = setInterval(()=>{
+el.innerHTML += text.charAt(i);
+i++;
+if(i >= text.length){
+clearInterval(typing);
+}
+}, 40);
+}
+
+/* SLIDER */
+let current=0;
+const slides=document.querySelectorAll(".slide");
+
+setInterval(()=>{
+slides[current].classList.remove("active");
+current=(current+1)%slides.length;
+slides[current].classList.add("active");
+},3000);
+
+/* HEART + 🌻 */
+function createHeart(){
+const icons=["💖","🌻"];
+const el=document.createElement("div");
+
+el.className="heart";
+el.innerHTML=icons[Math.floor(Math.random()*icons.length)];
+
+el.style.left=Math.random()*100+"vw";
+el.style.fontSize=(Math.random()*20+20)+"px";
+el.style.animationDuration=(Math.random()*4+4)+"s";
+
+document.body.appendChild(el);
+setTimeout(()=>el.remove(),8000);
+}
+setInterval(createHeart,300);
+
+/* CONFETTI */
+function confetti(){
+const icons=["🎉","💖","🌻"];
+
+for(let i=0;i<40;i++){
+let c=document.createElement("div");
+
+c.innerHTML=icons[Math.floor(Math.random()*icons.length)];
+c.style.position="fixed";
+c.style.left=Math.random()*100+"vw";
+c.style.top="-20px";
+c.style.fontSize="25px";
+
+document.body.appendChild(c);
+
+let pos=0;
+let anim=setInterval(()=>{
+pos+=5;
+c.style.top=pos+"px";
+if(pos>window.innerHeight){
+clearInterval(anim);
+c.remove();
+}
+},20);
+}
+}
+
+</script>
+
+</body>
+</html>
